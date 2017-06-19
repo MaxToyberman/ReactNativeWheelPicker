@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {I18nManager} from 'react-native';
 import {
   View,
   StyleSheet,
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'
   },
   wheelPicker: {
     height: 150,
@@ -23,14 +23,12 @@ const styles = StyleSheet.create({
 class TimePicker extends React.Component {
   constructor(props) {
     super(props);
-    this.format24 = this.props.format24
     this.selectedDate = this.props.initDate ? new Date(this.props.initDate) : new Date();
     const time12format = hourTo12Format(this.selectedDate.getHours());
-    this.getHoursArray = getHoursArray.bind(this)
-    this.hours = this.props.hours ? this.props.hours : this.getHoursArray();
+    this.hours = this.props.hours ? this.props.hours : getHoursArray();
     this.minutes = this.props.minutes ? this.props.minutes : getFiveMinutesArray();
     this.initHourInex = time12format[0] - 1;
-    this.initMinuteInex = Math.round(this.selectedDate.getMinutes() / 5);
+    this.initMinuteInex = Math.round(this.selectedDate.getMinutes() / (this.props.timeInterval || 5)) % this.props.minutes.length;
     this.initAmInex = time12format[1] === 'AM' ? 0 : 1;
   }
 
@@ -59,7 +57,7 @@ class TimePicker extends React.Component {
           onItemSelected={data => this.onMinuteSelected(data)}
           selectedItemPosition={this.initMinuteInex}
         />
-        {!this.props.format24 ? <WheelPicker
+        <WheelPicker
           style={styles.wheelPicker}
           isAtmospheric
           isCurved
@@ -68,9 +66,7 @@ class TimePicker extends React.Component {
           selectedItemTextColor={'black'}
           onItemSelected={data => this.onAmSelected(data)}
           selectedItemPosition={this.initAmInex}
-          /> : null
-        }
-
+        />
       </View>
     );
   }
@@ -109,7 +105,7 @@ TimePicker.propTypes = {
   onTimeSelected: React.PropTypes.func,
   hours: React.PropTypes.array,
   minutes: React.PropTypes.array,
-  format24: React.PropTypes.bool
+  timeInterval: React.PropTypes.number
 };
 
 // it takes in format '12 AM' and return 24 format
@@ -140,9 +136,7 @@ const dateTo12Hour = (dateString) => {
 
 function getHoursArray() {
   const arr = [];
-  const hours = this.format24 ? 24 : 13
-
-  for (let i = 1; i < hours; i++) {
+  for (let i = 1; i < 13; i++) {
     arr.push(i);
   }
   return arr;
