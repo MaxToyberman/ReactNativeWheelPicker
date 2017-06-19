@@ -28,7 +28,7 @@ class TimePicker extends React.Component {
     this.hours = this.props.hours ? this.props.hours : getHoursArray();
     this.minutes = this.props.minutes ? this.props.minutes : getFiveMinutesArray();
     this.initHourInex = time12format[0] - 1;
-    this.initMinuteInex = Math.round(this.selectedDate.getMinutes() / (this.props.timeInterval || 5)) % this.props.minutes.length;
+    this.initMinuteInex = Math.ceil(this.selectedDate.getMinutes() / (this.props.timeInterval || 5)) % this.props.minutes.length;
     this.initAmInex = time12format[1] === 'AM' ? 0 : 1;
   }
 
