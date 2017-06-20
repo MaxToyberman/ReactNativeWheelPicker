@@ -80,7 +80,7 @@ class TimePicker extends React.Component {
         <TouchableOpacity style={{justifyContent:'flex-start'}} onPress={this.props.onCancel} disabled={this.props.disabled}>
             <Text style={styles.buttonCancel}> {I18n.t('cancel')} </Text>
         </TouchableOpacity>
-          <TouchableOpacity  style={{justirfyContent:'flex-start'}} onPress={()=> this.props.onOk(this.selectedDate, this.props.stateKey)} disabled={this.props.disabled}>
+          <TouchableOpacity  style={{justifyContent:'flex-start'}} onPress={()=> this.props.onOk(this.selectedDate, this.props.stateKey)} disabled={this.props.disabled}>
               <Text style={styles.buttonOk}> {I18n.t('ok')} </Text>
           </TouchableOpacity>
          </View>
