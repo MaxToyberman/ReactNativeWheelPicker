@@ -1,5 +1,7 @@
 import React from 'react';
-import {I18nManager} from 'react-native';
+import {I18nManager, TouchableOpacity, Text} from 'react-native';
+import I18n from 'react-native-i18n'
+
 import {
   View,
   StyleSheet,
@@ -9,6 +11,10 @@ import moment from 'moment';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+
+  TimePicker: {
     flex: 1,
     alignItems: 'center',
     flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'
@@ -36,6 +42,7 @@ class TimePicker extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.TimePicker}>
         <WheelPicker
           style={styles.wheelPicker}
           isAtmospheric
@@ -68,6 +75,15 @@ class TimePicker extends React.Component {
           onItemSelected={data => this.onAmSelected(data)}
           selectedItemPosition={this.initAmInex}
         />
+        </View>
+        <View style={{flexDirection :'row', justifyContent:'flex-end'}}>
+        <TouchableOpacity style={{justifyContent:'flex-start'}} onPress={this.props.onCancel} disabled={this.props.disabled}>
+            <Text style={styles.buttonCancel}> {I18n.t('cancel')} </Text>
+        </TouchableOpacity>
+          <TouchableOpacity  style={{justirfyContent:'flex-start'}} onPress={()=> this.props.onOk(this.selectedDate, this.props.stateKey)} disabled={this.props.disabled}>
+              <Text style={styles.buttonOk}> {I18n.t('ok')} </Text>
+          </TouchableOpacity>
+         </View>
       </View>
     );
   }
@@ -106,7 +122,10 @@ TimePicker.propTypes = {
   onTimeSelected: React.PropTypes.func,
   hours: React.PropTypes.array,
   minutes: React.PropTypes.array,
-  timeInterval: React.PropTypes.number
+  stateKey: React.PropTypes.string,
+  timeInterval: React.PropTypes.number,
+  onOk: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func.isRequired
 };
 
 // it takes in format '12 AM' and return 24 format
