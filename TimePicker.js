@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   TimePicker: {
     flex: 1,
     alignItems: 'center',
@@ -24,6 +23,14 @@ const styles = StyleSheet.create({
     width: null,
     flex: 1,
   },
+  buttonCancel: {
+    fontSize: 19,
+    color: '#4f9cdf'
+  },
+  buttonOk: {
+    fontSize: 19,
+    color: '#4f9cdf'
+  }
 });
 
 class TimePicker extends React.Component {
